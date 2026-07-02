@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rezerwacje – Jadalnia Posmakuj S2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('mJhx-_ngsU0PPa_Hj');</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+.form-wrap { max-width: 640px; margin: 0 auto; padding: 2rem 1.2rem 3rem; }
+.logo-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.8rem; }
+.logo-bar h1 { font-size: 20px; font-weight: 600; color: #1a1a1a; }
+.logo-bar span { font-size: 13px; color: #666; margin-top: 2px; display: block; }
+.section { margin-bottom: 1.6rem; background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+.section-title { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: 14px; color: #444; margin-bottom: 5px; font-weight: 500; }
+.field input, .field select { width: 100%; font-size: 14px; padding: 9px 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; color: #1a1a1a; outline: none; transition: border 0.15s; }
+.field input:focus, .field select:focus { border-color: #185FA5; background: #fff; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-opt { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1.5px solid #ddd; border-radius: 8px; cursor: pointer; font-size: 14px; color: #333; background: #fafafa; transition: all 0.15s; }
+.radio-opt:has(input:checked) { border-color: #185FA5; background: #E6F1FB; color: #0C447C; font-weight: 500; }
+.radio-opt input { display: none; }
+.meal-opt { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border: 1.5px solid #eee; border-radius: 8px; margin-bottom: 8px; cursor: pointer; background: #fafafa; transition: all 0.15s; }
+.meal-opt:last-child { margin-bottom: 0; }
+.meal-opt:has(input:checked) { border-color: #0F6E56; background: #E1F5EE; }
+.meal-opt input { accent-color: #0F6E56; }
+.meal-opt span { font-size: 14px; color: #333; }
+.meal-opt:has(input:checked) span { color: #085041; font-weight: 500; }
+.meal-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #eee; color: #888; margin-left: auto; }
+.meal-opt:has(input:checked) .meal-tag { background: #9FE1CB; color: #085041; }
+.meal-note { font-size: 13px; color: #888; margin-bottom: 12px; }
+.info-box { display: flex; align-items: flex-start; gap: 10px; background: #E6F1FB; border: 1px solid #85B7EB; border-radius: 10px; padding: 13px 15px; margin-bottom: 1.5rem; }
+.info-box p { font-size: 13px; color: #0C447C; line-height: 1.6; }
+.rodo-box { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px 14px; margin-top: 1rem; }
+.rodo-box p { font-size: 11px; color: #888; line-height: 1.75; }
+.rodo-box strong { color: #555; }
+.submit-btn { width: 100%; padding: 13px; font-size: 15px; font-weight: 600; background: #185FA5; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-top: 1rem; transition: background 0.15s; letter-spacing: 0.02em; }
+.submit-btn:hover { background: #0C447C; }
+.submit-btn:disabled { background: #85B7EB; cursor: not-allowed; }
+.success-box { display: none; border: 1px solid #5DCAA5; border-radius: 14px; padding: 2rem; background: #E1F5EE; text-align: center; margin-top: 1rem; }
+.success-box h2 { font-size: 20px; font-weight: 600; color: #085041; margin-bottom: 10px; }
+.success-box p { font-size: 14px; color: #0F6E56; line-height: 1.7; }
+.nr-box { background: #fff; border: 1px solid #5DCAA5; border-radius: 10px; padding: 14px 18px; margin-top: 16px; text-align: left; }
+.nr-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 14px; border-bottom: 1px solid #e8f5ef; }
+.nr-row:last-child { border-bottom: none; }
+.nr-label { color: #0F6E56; }
+.nr-value { font-weight: 600; color: #085041; }
+.mail-note { margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; color: #0F6E56; }
+.error-msg { font-size: 12px; color: #c0392b; margin-top: 4px; display: none; }
+.sending-msg { text-align: center; font-size: 14px; color: #185FA5; margin-top: 10px; display: none; padding: 10px; }
+.err-global { background: #FDE8E8; border: 1px solid #F5A0A0; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #8B0000; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+<div class="form-wrap">
+
+  <div class="logo-bar">
+    <div style="width:44px;height:44px;background:#185FA5;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+      <i class="ti ti-building-store" style="font-size:24px;color:#fff;"></i>
+    </div>
+    <div>
+      <h1>Jadalnia Posmakuj S2</h1>
+      <span>Formularz rezerwacji grupowej</span>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <i class="ti ti-lock" style="font-size:20px;color:#185FA5;flex-shrink:0;margin-top:1px;"></i>
+    <p>Po wysłaniu zgłoszenia otrzymasz na e-mail <strong>unikalny numer zamówienia</strong> oraz <strong>hasło do podania przy kasie</strong>. Hasło jest przypisane tylko do Twojej rezerwacji.</p>
+  </div>
+
+  <div id="main-form">
+
+    <div class="section">
+      <div class="section-title">Dane podstawowe</div>
+      <div class="row2">
+        <div class="field">
+          <label>Data <span style="color:#c0392b">*</span></label>
+          <input type="date" id="f-data"/>
+          <div class="error-msg" id="e-data">Uzupełnij datę</div>
+        </div>
+        <div class="field">
+          <label>Godzina lunchu / start cateringu <span style="color:#c0392b">*</span></label>
+          <input type="time" id="f-godzina"/>
+          <div class="error-msg" id="e-godzina">Uzupełnij godzinę</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Nazwa firmy / grupy <span style="color:#c0392b">*</span></label>
+        <input type="text" id="f-firma" placeholder="np. Kowalski & Partnerzy Sp. z o.o."/>
+        <div class="error-msg" id="e-firma">Podaj nazwę firmy</div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Liczba osób <span style="color:#c0392b">*</span></label>
+          <input type="number" id="f-osoby" min="1" placeholder="np. 20"/>
+          <div class="error-msg" id="e-osoby">Podaj liczbę osób</div>
+        </div>
+        <div class="field">
+          <label>E-mail organizatora <span style="color:#c0392b">*</span></label>
+          <input type="email" id="f-mail" placeholder="jan.kowalski@firma.pl"/>
+          <div class="error-msg" id="e-mail">Podaj poprawny adres e-mail</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Rodzaj usługi</div>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="typ" value="Catering (dostawa)"/><i class="ti ti-truck" style="font-size:16px"></i> Catering (dostawa)</label>
+        <label class="radio-opt"><input type="radio" name="typ" value="Rezerwacja w sali"/><i class="ti ti-armchair" style="font-size:16px"></i> Rezerwacja w sali</label>
+      </div>
+      <div class="error-msg" id="e-typ" style="margin-top:6px;">Wybierz rodzaj usługi</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Opcja posiłku dla grupy</div>
+      <p class="meal-note">Wybierz opcję obowiązującą dla wszystkich uczestników:</p>
+      <label class="meal-opt">
+        <input type="radio" name="posilek" value="II danie + kompot"/>
+        <i class="ti ti-bowl" style="font-size:18px;color:#888"></i>
+        <span>II danie + kompot</span>
+        <span class="meal-tag">2 pozycje</span>
+      </label>
+      <label class="meal-opt">
+        <input type="radio" name="posilek" value="Zupa + II danie + kompot + deser"/>
+        <i class="ti ti-soup" style="font-size:18px;color:#888"></i>
+        <span>Zupa + II danie + kompot + deser</span>
+        <span class="meal-tag">4 pozycje</span>
+      </label>
+      <div class="error-msg" id="e-posilek" style="margin-top:6px;">Wybierz opcję posiłku</div>
+    </div>
+
+    <div class="rodo-box">
+      <p><strong>Klauzula informacyjna RODO:</strong> Administratorem Pani/Pana danych osobowych jest Jadalnia Posmakuj S2. Dane przetwarzane są wyłącznie w celu realizacji rezerwacji, na podstawie art. 6 ust. 1 lit. b RODO. Podanie danych jest dobrowolne, lecz niezbędne do złożenia rezerwacji. Przysługuje Pani/Panu prawo dostępu do danych, ich poprawiania oraz usunięcia. Dane nie są udostępniane podmiotom trzecim.</p>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+      <i class="ti ti-send" style="font-size:16px;vertical-align:-2px;margin-right:6px"></i>
+      Wyślij zgłoszenie
+    </button>
+    <div class="sending-msg" id="sending-msg">⏳ Wysyłanie potwierdzenia na e-mail...</div>
+    <div class="err-global" id="err-global">Wystąpił błąd podczas wysyłania maila. Spróbuj ponownie lub skontaktuj się z nami bezpośrednio.</div>
+
+  </div>
+
+  <div class="success-box" id="success-box">
+    <i class="ti ti-circle-check" style="font-size:44px;color:#0F6E56;margin-bottom:12px;"></i>
+    <h2>Rezerwacja przyjęta!</h2>
+    <p>Szczegóły i hasło zostały wysłane na podany adres e-mail.<br>Przekaż hasło uczestnikom swojej grupy.</p>
+    <div class="nr-box" id="nr-box"></div>
+    <div class="mail-note">
+      <i class="ti ti-mail" style="font-size:16px;"></i>
+      <span>Potwierdzenie wysłane na <strong id="mail-confirm"></strong></span>
+    </div>
+  </div>
+
+</div>
+<script>
+const HASLA = [
+  'Letni Groszek!','Złota Dynia!','Ciepły Bób!','Jesienna Śliwka!',
+  'Świeży Koper!','Słoneczna Rzodkiewka!','Zielona Bazylia!','Dojrzały Pomidor!'
+];
+function losujHaslo(){ return HASLA[Math.floor(Math.random()*HASLA.length)]; }
+function genNr(){
+  const d=new Date(), pad=n=>String(n).padStart(2,'0');
+  return 'S2-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.floor(1000+Math.random()*9000);
+}
+function showErr(id,show){ document.getElementById(id).style.display=show?'block':'none'; }
+async function submitForm(){
+  let ok=true;
+  const data=document.getElementById('f-data').value;
+  const godzina=document.getElementById('f-godzina').value;
+  const firma=document.getElementById('f-firma').value.trim();
+  const osoby=document.getElementById('f-osoby').value;
+  const mail=document.getElementById('f-mail').value.trim();
+  const typ=document.querySelector('input[name="typ"]:checked');
+  const posilek=document.querySelector('input[name="posilek"]:checked');
+  showErr('e-data',!data); if(!data) ok=false;
+  showErr('e-godzina',!godzina); if(!godzina) ok=false;
+  showErr('e-firma',!firma); if(!firma) ok=false;
+  showErr('e-osoby',!osoby||osoby<1); if(!osoby||osoby<1) ok=false;
+  showErr('e-mail',!mail||!mail.includes('@')); if(!mail||!mail.includes('@')) ok=false;
+  showErr('e-typ',!typ); if(!typ) ok=false;
+  showErr('e-posilek',!posilek); if(!posilek) ok=false;
+  if(!ok) return;
+  const nr=genNr(), haslo=losujHaslo();
+  const btn=document.getElementById('submit-btn');
+  const sending=document.getElementById('sending-msg');
+  const errGlobal=document.getElementById('err-global');
+  btn.disabled=true; sending.style.display='block'; errGlobal.style.display='none';
+  try {
+    await emailjs.send('jadalnia_s2','template_1fmouhd',{
+      to_email:mail, nr_zamowienia:nr, firma:firma,
+      data:data, godzina:godzina, osoby:osoby,
+      typ:typ.value, posilek:posilek.value, haslo:haslo
+    });
+    sending.style.display='none';
+    document.getElementById('main-form').style.display='none';
+    const box=document.getElementById('nr-box');
+    box.innerHTML=
+      '<div class="nr-row"><span class="nr-label">Nr zamówienia</span><span class="nr-value">'+nr+'</span></div>'+
+      '<div class="nr-row"><span class="nr-label">Firma / Grupa</span><span class="nr-value">'+firma+'</span></div>'+
+      '<div class="nr-row"><span class="nr-label">Data</span><span class="nr-value">'+data+' godz. '+godzina+'</span></div>'+
+      '<div class="nr-row"><span class="nr-label">Liczba osób</span><span class="nr-value">'+osoby+'</span></div>'+
+      '<div class="nr-row"><span class="nr-label">Rodzaj usługi</span><span class="nr-value">'+typ.value+'</span></div>'+
+      '<div class="nr-row"><span class="nr-label">🔑 Hasło przy kasie</span><span class="nr-value">'+haslo+'</span></div>';
+    document.getElementById('mail-confirm').textContent=mail;
+    document.getElementById('success-box').style.display='block';
+  } catch(err){
+    sending.style.display='none'; btn.disabled=false; errGlobal.style.display='block';
+    console.error('EmailJS error:',err);
+  }
+}
+</script>
+</body>
+</html>
